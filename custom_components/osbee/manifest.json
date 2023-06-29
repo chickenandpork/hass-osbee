@@ -1,0 +1,14 @@
+{
+  "domain": "osbee",
+  "name": "Open Sprinkler Bee",
+  "codeowners": [ "@chickenandpork" ],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/chickenandpork/hass-osbee",
+  "homekit": {},
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/chickenandpork/hass-osbee/issues",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": []
+}
