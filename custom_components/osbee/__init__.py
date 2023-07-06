@@ -25,4 +25,4 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(hass, entry, async_add_entities):
     """Config entry example."""
     # assuming API object stored here by __init__.py
-    _LOGGER.exception("__init__::async_setup_entry: entry is %s", entry)
+    _LOGGER.debug("__init__::async_setup_entry: entry is %s", entry)

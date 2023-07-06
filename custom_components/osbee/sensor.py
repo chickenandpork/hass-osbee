@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Your controller/hub specific code."""
 
-    _LOGGER.warning("In sensor.py::setup")
+    _LOGGER.debug("In sensor.py::setup")
 
     return True
 
@@ -88,7 +88,7 @@ async def async_setup_platform(
 ) -> None:
     """Set up the OSBee sensor platform."""
 
-    _LOGGER.warning("In sensor.py::async_setup_platform: config is %s", config)
+    _LOGGER.debug("In sensor.py::async_setup_platform: config is %s", config)
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {"coordinators": {}, "hubs": {}}
     if config[CONF_HOST] not in hass.data[DOMAIN]["hubs"]:
@@ -111,14 +111,14 @@ async def async_setup_platform(
 
     # await coordinator.async_config_entry_first_refresh()
 
-    _LOGGER.warning(
+    _LOGGER.debug(
         "In sensor.py::async_setup_platform: post-async_config_entry_first_refresh: data is %s",
         coordinator.data,
     )
 
     if coordinator.data:
         for idx, ent in enumerate(coordinator.data):
-            _LOGGER.warning(
+            _LOGGER.debug(
                 "In sensor.py::async_setup_platform: post-async_config_entry_first_refresh: idx %s, ent %s, val %s",
                 idx,
                 ent,
@@ -150,7 +150,7 @@ class OSBeeRSSISensor(CoordinatorEntity, SensorEntity):
 
     def __init__(self, coordinator, idx, key):
         """Pass coordinator to CoordinatorEntity."""
-        _LOGGER.warning(
+        _LOGGER.debug(
             "In __init__::OSBeeRSSISensor::__init__: idx = %s, key = %s", idx, key
         )
         super().__init__(coordinator, context=idx)
@@ -162,7 +162,7 @@ class OSBeeRSSISensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        _LOGGER.warning(
+        _LOGGER.debug(
             "In __init__::OSBeeRSSISensor::_handle_coordinator_update, data = %s",
             self.coordinator.data,
         )
@@ -172,5 +172,5 @@ class OSBeeRSSISensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique, Home Assistant friendly identifier for this entity."""
-        _LOGGER.warning("In __init__::OSBeeRSSISensor::unique_id")
+        _LOGGER.debug("In __init__::OSBeeRSSISensor::unique_id")
         return f"""{self._mac.replace(":", "")}_{self._key}"""

@@ -32,7 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Your controller/hub specific code."""
 
-    _LOGGER.warning("In switch.py::setup")
+    _LOGGER.debug("In switch.py::setup")
 
     return True
 
@@ -91,7 +91,7 @@ async def async_setup_platform(
     which risks skew and incompatibility (WET not DRY) so will eventually need to be reconciled.
     """
 
-    _LOGGER.warning("In switch.py::async_setup_platform: config is %s", config)
+    _LOGGER.debug("In switch.py::async_setup_platform: config is %s", config)
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {"coordinators": {}, "hubs": {}}
     if config[CONF_HOST] not in hass.data[DOMAIN]["hubs"]:
@@ -113,7 +113,7 @@ async def async_setup_platform(
     # coordinator.async_refresh() instead
     #
 
-    _LOGGER.warning(
+    _LOGGER.debug(
         "In switch.py::async_setup_platform: post-async_config_entry_first_refresh: data is %s",
         coordinator.data,
     )
@@ -143,7 +143,7 @@ class OSBeeZoneSwitch(CoordinatorEntity, SwitchEntity):
 
     def __init__(self, coordinator, zone_id, zone_name, hub):
         """Pass coordinator to CoordinatorEntity."""
-        _LOGGER.warning(
+        _LOGGER.debug(
             "__init__::OSBeeZoneSensor::__init__: zone_id = %s",
             zone_id,
         )
@@ -156,7 +156,7 @@ class OSBeeZoneSwitch(CoordinatorEntity, SwitchEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique, Home Assistant friendly identifier for this entity."""
-        _LOGGER.warning("__init__::OSBeeZoneSensor::unique_id")
+        _LOGGER.debug("__init__::OSBeeZoneSensor::unique_id")
         return f"""{self._mac.replace(":", "")}_zone_{self._zone_id}"""
 
     async def async_turn_off(self, **kwargs: Any) -> None:

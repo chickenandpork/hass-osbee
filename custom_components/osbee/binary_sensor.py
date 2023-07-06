@@ -31,7 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Your controller/hub specific code."""
 
-    _LOGGER.warning("In binary_sensor.py::setup")
+    _LOGGER.debug("In binary_sensor.py::setup")
 
     return True
 
@@ -91,7 +91,7 @@ async def async_setup_platform(
     reconciled.
     """
 
-    _LOGGER.warning("In binary_sensor.py::async_setup_platform: config is %s", config)
+    _LOGGER.debug("In binary_sensor.py::async_setup_platform: config is %s", config)
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {"coordinators": {}, "hubs": {}}
     if config[CONF_HOST] not in hass.data[DOMAIN]["hubs"]:
@@ -114,7 +114,7 @@ async def async_setup_platform(
 
     # await coordinator.async_config_entry_first_refresh()
 
-    _LOGGER.warning(
+    _LOGGER.debug(
         "In binary_sensor.py::async_setup_platform: post-async_config_entry_first_refresh: data is %s",
         coordinator.data,
     )
@@ -143,7 +143,7 @@ class OSBeeZoneSensor(CoordinatorEntity, BinarySensorEntity):
 
     def __init__(self, coordinator, zone_id, zone_name):
         """Pass coordinator to CoordinatorEntity."""
-        _LOGGER.warning(
+        _LOGGER.debug(
             "In __init__::OSBeeZoneSensor::__init__: zone_id = %s",
             zone_id,
         )
@@ -157,7 +157,7 @@ class OSBeeZoneSensor(CoordinatorEntity, BinarySensorEntity):
         """Handle updated data from the coordinator."""
         mask = 1 << self._zone_id
         self._attr_is_on = (self.coordinator.data["zbits"] & mask) > 0
-        _LOGGER.warning(
+        _LOGGER.debug(
             "In __init__::OSBeeZoneSensor::_handle_coordinator_update, zone_id = %d, mask = %d, data[zbits] = %s, value=%s",
             self._zone_id,
             mask,
@@ -169,5 +169,5 @@ class OSBeeZoneSensor(CoordinatorEntity, BinarySensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique, Home Assistant friendly identifier for this entity."""
-        _LOGGER.warning("In __init__::OSBeeZoneSensor::unique_id")
+        _LOGGER.debug("In __init__::OSBeeZoneSensor::unique_id")
         return f"""{self._mac.replace(":", "")}_zone_{self._zone_id}"""
