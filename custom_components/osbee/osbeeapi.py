@@ -25,22 +25,26 @@ class OSBeeAPI:
 
     async def fetch_data(self, index):
         """Get raw device state from the OSBee Hub via API.  No authentication yet considered."""
-        _LOGGER.warning("Fetch_data from %s with index %s", self._host, index)
+        _LOGGER.debug("Fetch_data from %s with index %s", self._host, index)
         async with self._session.get(f"http://{self._host}/jc") as jc_request:
             if jc_request.status == 401:
-                raise AuthenticationError("Unable to authenticate with the OSBee API")
+                raise AuthenticationError(
+                    "Unable to authenticate with the OSBee API (HTTP/401)"
+                )
 
             if jc_request.status == 500:
-                raise ServiceUnavailableError("The service is currently unavailable")
+                raise ServiceUnavailableError(
+                    "The service is currently unavailable (HTTP/500)"
+                )
 
             if jc_request.status == 429:
                 raise TooManyRequestsError(
-                    "Too many requests have been made to the API"
+                    "Too many requests have been made to the API (HTTP/429)"
                 )
 
             if jc_request.status != 200:
                 raise Exception(  # pylint: disable=broad-exception-raised
-                    "Error connecting to OSBee Hub"
+                    f"Error connecting to OSBee Hub (HTTP/{jc_request.status or 'None'})"
                 )
 
             jc_body = await jc_request.json(content_type="text/html")
@@ -62,10 +66,10 @@ class OSBeeAPI:
             # use jc_cache[zbits] to avoid WET variables
             with self.lock:
                 current = self._jc_cache["zbits"]
-                _LOGGER.warning("In turn_off: current state is %s", current)
+                _LOGGER.debug("In turn_off: current state is %s", current)
                 mask = 1 << zone_id
                 self._jc_cache["zbits"] = current & ~mask
-            _LOGGER.warning("In turn_off: new state is %s", self._jc_cache["zbits"])
+            _LOGGER.debug("In turn_off: new state is %s", self._jc_cache["zbits"])
 
         return await self.async_apply_state()
 
@@ -79,10 +83,10 @@ class OSBeeAPI:
             # use jc_cache[zbits] to avoid WET variables
             with self.lock:
                 current = self._jc_cache["zbits"]
-                _LOGGER.warning("In turn_on: current state is %s", current)
+                _LOGGER.debug("In turn_on: current state is %s", current)
                 mask = 1 << zone_id
                 self._jc_cache["zbits"] = current | mask
-            _LOGGER.warning("In turn_on: new state is %s", self._jc_cache["zbits"])
+            _LOGGER.debug("In turn_on: new state is %s", self._jc_cache["zbits"])
 
         return await self.async_apply_state()
 
@@ -105,22 +109,22 @@ class OSBeeAPI:
         async with self._session.get(url) as rp_request:
             if rp_request.status == 401:
                 raise AuthenticationError(
-                    "Unable to authenticate with the OSBee API"
+                    "Unable to authenticate with the OSBee API (HTTP/401)"
                 )
 
             if rp_request.status == 500:
                 raise ServiceUnavailableError(
-                    "The service is currently unavailable"
+                    "The service is currently unavailable (HTTP/500)"
                 )
 
             if rp_request.status == 429:
                 raise TooManyRequestsError(
-                    "Too many requests have been made to the API"
+                    "Too many requests have been made to the API (HTTP/429)"
                 )
 
             if rp_request.status != 200:
                 raise Exception(  # pylint: disable=broad-exception-raised
-                    "Error connecting to OSBee Hub"
+                    f"Error connecting to OSBee Hub (HTTP/{rp_request.status or 'None'})"
                 )
 
         _LOGGER.debug("In turn_off: finished")
