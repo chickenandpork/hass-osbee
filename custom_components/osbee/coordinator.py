@@ -24,7 +24,7 @@ class OSBeeHubCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=3),
         )
         self.my_api = my_api
-        _LOGGER.warning("In coordinator.py::OSBeeHubCoordinator::__init__")
+        _LOGGER.debug("In coordinator.py::OSBeeHubCoordinator::__init__")
 
     async def _async_update_data(self):
         """Fetch data from API endpoint.
@@ -39,7 +39,7 @@ class OSBeeHubCoordinator(DataUpdateCoordinator):
                 # Grab active context variables to limit data required to be fetched from API
                 # Note: using context is not required if there is no need or ability to limit
                 # data retrieved from API.
-                _LOGGER.warning(
+                _LOGGER.debug(
                     "In coordinator.py::OSBeeHubCoordinator::_async_update_data"
                 )
                 listening_idx = set(self.async_contexts())
