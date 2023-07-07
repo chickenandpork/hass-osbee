@@ -9,7 +9,7 @@ from homeassistant.components.binary_sensor import (
     PLATFORM_SCHEMA,
     BinarySensorEntity,
 )
-from homeassistant.const import CONF_HOST, CONF_TIMEOUT
+from homeassistant.const import CONF_HOST, CONF_TIMEOUT, CONF_TOKEN
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 import homeassistant.helpers.config_validation as cv
@@ -40,6 +40,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
         vol.Optional(CONF_TIMEOUT, default=1800): cv.positive_int,
+        vol.Optional(
+            CONF_TOKEN, default="opendoor"
+        ): cv.string,  # "opendoor" is default in docs
         # vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     }
 )
@@ -49,7 +52,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 #
 # hass.data[DOMAIN]: {
 #     "192.168.1.77": {
-#         "h": an OSBeeAPI ("192.168.1.77", 900, <async_client session>)
+#         "h": an OSBeeAPI ("192.168.1.77", 900, "opendoor", <async_client session>)
 #         "c": an OSBeeHubCoordinator (hass, ^^ that OSBeeAPI)
 #     }, ...
 # }
@@ -99,6 +102,7 @@ async def async_setup_platform(
         h = OSBeeAPI(
             config[CONF_HOST],
             config[CONF_TIMEOUT] if CONF_TIMEOUT in config else 900,
+            config[CONF_TOKEN] if CONF_TOKEN in config else "opendoor",
             async_create_clientsession(hass),
         )
         c = OSBeeHubCoordinator(hass, h)

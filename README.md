@@ -63,32 +63,39 @@ banned, this is what works so very well.
 ### Configuring the Current Code
 
 Right now, this current release, you will need to make redundant platform configs per-entity.  For
-example, assuming you have two OSBees (on 192.168.1.44 and 192.168.1.45):
+example, assuming you have two OSBees (on 192.168.1.44 and 192.168.1.45), and 1.44 can run for a
+maximum of 45 minutes (2700 seconds), but 1.45 keeps the default 15-minute window.  Tokens for 1.44
+and 1.45 are "BobIsAGiant" and "AllanIsTheKing", respectively.
 
 ```yaml
 
 binary_sensor:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 
 sensor:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 
 switch:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 ```
-
-Currently, in THIS release, the token is set to the default.  If you want configurability sooner,
-please file an issue in this GitHub Project.  Yes, it tells me what's important, and tells me "hey,
-someone uses this, it's a useful thing".
 
 
 ### What about Config Flow?
