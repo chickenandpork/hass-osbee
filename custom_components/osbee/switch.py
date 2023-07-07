@@ -10,7 +10,7 @@ from homeassistant.components.switch import (
     PLATFORM_SCHEMA,
     SwitchEntity,
 )
-from homeassistant.const import CONF_HOST
+from homeassistant.const import CONF_HOST, CONF_TIMEOUT
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 import homeassistant.helpers.config_validation as cv
@@ -40,6 +40,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
+        vol.Optional(CONF_TIMEOUT, default=1800): cv.positive_int,
         # vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     }
 )
@@ -49,7 +50,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 #
 # hass.data[DOMAIN]: {
 #     "192.168.1.77": {
-#         "h": an OSBeeAPI ("192.168.1.77", <async_client session>)
+#         "h": an OSBeeAPI ("192.168.1.77", 900, <async_client session>)
 #         "c": an OSBeeHubCoordinator (hass, ^^ that OSBeeAPI)
 #     }, ...
 # }
@@ -95,7 +96,11 @@ async def async_setup_platform(
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {"coordinators": {}, "hubs": {}}
     if config[CONF_HOST] not in hass.data[DOMAIN]["hubs"]:
-        h = OSBeeAPI(config[CONF_HOST], async_create_clientsession(hass))
+        h = OSBeeAPI(
+            config[CONF_HOST],
+            config[CONF_TIMEOUT] if CONF_TIMEOUT in config else 900,
+            async_create_clientsession(hass),
+        )
         c = OSBeeHubCoordinator(hass, h)
 
         hass.data[DOMAIN]["hubs"].update({config[CONF_HOST]: {"h": h, "c": c}})
