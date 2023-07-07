@@ -16,7 +16,9 @@ _LOGGER = logging.getLogger(__name__)
 class OSBeeAPI:
     """aiohttp facade for API requests to OSB Hub device."""
 
-    def __init__(self, host, max_runtime: int, session: aiohttp.ClientSession) -> None:
+    def __init__(
+        self, host: str, max_runtime: int, token: str, session: aiohttp.ClientSession
+    ) -> None:
         """Create an OSBeeAPI by offering a host, and an async session to get there."""
         self._host = host
         self._jc_cache = None
@@ -24,6 +26,7 @@ class OSBeeAPI:
         self._max_runtime = max_runtime
         self._session = session
         self.lock = Lock()
+        self._token = token
         _LOGGER.warning(
             "created OSBeeAPI at %s max_runtime %s (%s)",
             self._host,
@@ -109,10 +112,10 @@ class OSBeeAPI:
         #  - Example: pid=77&zbits=3&dur=300 turns on zones 1 and 2 manually for 5 minutes
 
         if self._jc_cache["zbits"] == 0:  # on zbits==0, we need to actually reset
-            url = f"http://{self._host}/cc?dkey=opendoor&reset=1"
+            url = f"http://{self._host}/cc?dkey={self._token}&reset=1"
         else:
             new_bitz = self._jc_cache["zbits"]  # avoid triple-quoting
-            url = f"http://{self._host}/rp?dkey=opendoor&pid=77&zbits={new_bitz}&dur={self._max_runtime}"
+            url = f"http://{self._host}/rp?dkey={self._token}&pid=77&zbits={new_bitz}&dur={self._max_runtime}"
 
         async with self._session.get(url) as rp_request:
             if rp_request.status == 401:
