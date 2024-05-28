@@ -1,6 +1,6 @@
 {
-  "content_in_root": False,
+  "content_in_root": false,
   "name": "OpenSprinkler Bee",
-  "render_readme": True,
-  "zip_release": False
+  "render_readme": true,
+  "zip_release": false
 }
