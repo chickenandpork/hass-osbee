@@ -1,0 +1,51 @@
+---
+name: Release
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      #- name: Upload Artifacts
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    if-no-files-found: error
+      #    retention-days: 7
+
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: [build]
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        # Settings -> Actions -> General -> Workflow Permissions
+        # - select "Read repo contents", and
+        # - enable "Allow Github Actions to create and approve pull requests"
+        id: release
+        with:
+          release-type: simple
+      - name: Clone Repo
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+      - name: Download artifacts
+        id: download
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - name: Upload Release Artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls -al
+          echo download is ${{ steps.download.outputs.download-path }}
+          gh release upload ${{ steps.release.outputs.tag_name }} [a-z]*-[0-9].*.txz  # ie denverton-7.2.txz
