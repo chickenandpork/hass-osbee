@@ -8,7 +8,7 @@
   "homekit": {},
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/chickenandpork/hass-osbee/issues",
-  "requirements": [],
+  "requirements": [ "osbee" ],
   "ssdp": [],
   "version": "0.0.2",
   "zeroconf": []
