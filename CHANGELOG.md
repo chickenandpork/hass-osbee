@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/chickenandpork/hass-osbee/compare/v0.1.0...v0.1.1) (2024-05-29)
+
+
+### Bug Fixes
+
+* add dependent library to the integration ([#14](https://github.com/chickenandpork/hass-osbee/issues/14)) ([bf3c3fd](https://github.com/chickenandpork/hass-osbee/commit/bf3c3fdc60e2a7a390ca383b6a6cddd56f864f15))
+
 ## [0.1.0](https://github.com/chickenandpork/hass-osbee/compare/v0.0.1...v0.1.0) (2024-05-28)
 
 
