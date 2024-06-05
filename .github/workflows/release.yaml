@@ -34,7 +34,8 @@ jobs:
         # - enable "Allow Github Actions to create and approve pull requests"
         id: release
         with:
-          release-type: simple
+          release-type: generic
+          jsonpath: "custom_components/osbee/manifest.json"
       - name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
