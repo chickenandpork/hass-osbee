@@ -48,7 +48,7 @@ jobs:
       - name: Simplify Version
         id: semver
         if: ${{ steps.release.outputs.release_created }}
-        run: echo "version=${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}"
+        run: echo "version=${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}" >> "$GITHUB_OUTPUT"
       - name: Rename
         if: ${{ steps.release.outputs.release_created }}
         run: mv osbee.tar.xz osbee-${{ steps.semver.outputs.version }}.tar.xz
