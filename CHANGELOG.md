@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/chickenandpork/hass-osbee/compare/v0.1.2...v0.1.3) (2024-06-05)
+
+
+### Bug Fixes
+
+* Repair release, which [#17](https://github.com/chickenandpork/hass-osbee/issues/17) didn't repair ([#20](https://github.com/chickenandpork/hass-osbee/issues/20)) ([092bca3](https://github.com/chickenandpork/hass-osbee/commit/092bca3ee4233afd5295703791c322fc4678c33a))
+
 ## [0.1.2](https://github.com/chickenandpork/hass-osbee/compare/v0.1.1...v0.1.2) (2024-06-05)
 
 
