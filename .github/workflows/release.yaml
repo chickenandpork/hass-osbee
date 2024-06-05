@@ -12,11 +12,14 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
-      #- name: Upload Artifacts
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    if-no-files-found: error
-      #    retention-days: 7
+      - name: Pack up Deliverable
+        run: tar -C custom_components -cJf osbee.tar.xz osbee
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          retention-days: 7
+          path: osbee.tar.xz
 
   release:
     runs-on: ubuntu-latest
@@ -40,7 +43,15 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/download-artifact@v4
         with:
+          # don't REALLY need... meh
           merge-multiple: true
+      - name: Simplify Version
+        id: semver
+        if: ${{ steps.release.outputs.release_created }}
+        run: echo "version=${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}"
+      - name: Rename
+        if: ${{ steps.release.outputs.release_created }}
+        run: mv osbee.tar.xz osbee-${{ steps.semver.outputs.version }}.tar.xz
       - name: Upload Release Artifacts
         if: ${{ steps.release.outputs.release_created }}
         env:
@@ -48,4 +59,4 @@ jobs:
         run: |
           ls -al
           echo download is ${{ steps.download.outputs.download-path }}
-          gh release upload ${{ steps.release.outputs.tag_name }} [a-z]*-[0-9].*.txz  # ie denverton-7.2.txz
+          gh release upload ${{ steps.release.outputs.tag_name }} osbee-${{ steps.semver.outputs.version }}.tar.xz
