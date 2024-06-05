@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2](https://github.com/chickenandpork/hass-osbee/compare/v0.1.1...v0.1.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* remove lib now in "osbee" in pypi, dep in [#14](https://github.com/chickenandpork/hass-osbee/issues/14) ([#19](https://github.com/chickenandpork/hass-osbee/issues/19)) ([b873b66](https://github.com/chickenandpork/hass-osbee/commit/b873b6674ed22634e5440f292907c3f9695e2f20))
+* Repair broken release workflow ([#17](https://github.com/chickenandpork/hass-osbee/issues/17)) ([bd54f65](https://github.com/chickenandpork/hass-osbee/commit/bd54f65e55c37d7b4252dbd17b264a37423ba548))
+
 ## [0.1.1](https://github.com/chickenandpork/hass-osbee/compare/v0.1.0...v0.1.1) (2024-05-29)
 
 
