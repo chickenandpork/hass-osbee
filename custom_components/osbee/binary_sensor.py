@@ -18,10 +18,10 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
 )
+from osbee import OSBeeAPI
 
 from .const import DOMAIN
 from .coordinator import OSBeeHubCoordinator
-from .osbeeapi import OSBeeAPI
 
 DEFAULT_NAME = "OSBee - Binary Sensor"
 
