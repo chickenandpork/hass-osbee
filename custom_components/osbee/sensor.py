@@ -22,10 +22,10 @@ from homeassistant.helpers.aiohttp_client import async_create_clientsession
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from osbee import OSBeeAPI
 
 from .const import DOMAIN
 from .coordinator import OSBeeHubCoordinator
-from .osbeeapi import OSBeeAPI
 
 DEFAULT_NAME = "OSBee - Sensor"
 
