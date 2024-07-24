@@ -1,0 +1,8 @@
+{
+  "extra-files": [
+    {
+      "type": "json",
+      "path": "custom_components/osbee/manifest.json"
+    }
+  ]
+}
