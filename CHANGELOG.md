@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.4](https://github.com/chickenandpork/hass-osbee/compare/v0.1.3...v0.1.4) (2024-07-24)
+
+
+### Bug Fixes
+
+* different URL for google-github-actions/release-please-action ([#26](https://github.com/chickenandpork/hass-osbee/issues/26)) ([db1ffa8](https://github.com/chickenandpork/hass-osbee/commit/db1ffa8536ca8c12e6dfa741c4796086abfba352))
+* fix the poorly-stripped import migration ([#25](https://github.com/chickenandpork/hass-osbee/issues/25)) ([50231dd](https://github.com/chickenandpork/hass-osbee/commit/50231ddce8a3d21feb7f793970cac0cd88b4c701))
+* get release version stamped into manifest for HACS ([#22](https://github.com/chickenandpork/hass-osbee/issues/22)) ([6c6625f](https://github.com/chickenandpork/hass-osbee/commit/6c6625f24eef8406875f455db985a5059e6f4ed9))
+* revert releaser to allow simple releaser to run ([#27](https://github.com/chickenandpork/hass-osbee/issues/27)) ([53ee260](https://github.com/chickenandpork/hass-osbee/commit/53ee2603b92150b83961f3f4247794656762f87a))
+
 ## [0.1.3](https://github.com/chickenandpork/hass-osbee/compare/v0.1.2...v0.1.3) (2024-06-05)
 
 
