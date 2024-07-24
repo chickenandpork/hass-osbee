@@ -10,7 +10,7 @@ one or more OSBee should appear as:
  - Switch for each zone, allowing to turn on/off.
 
 In current form, one OSBee creates one sensor, 3 binary_sensors, 3 switches, all named
-"osbee <MacAddress> <thing>"; for example, with MacAddreaa c4:5b:be:12:34:56, you'll see:
+"osbee <MacAddress> <thing>"; for example, with MacAddress c4:5b:be:12:34:56, you'll see:
  - sensor "osbee c45bbe123456 rssi" showing Received Signal strength (in dB) (so -20dB is 1% of full power, -30dB is 0.1%)
  - binary_sensor "osbee c45bbe123456 zone 0" showing whether zone 1 is running/open/on
  - binary_sensor "osbee c45bbe123456 zone 2" showing whether zone 2 is running/open/on
@@ -33,7 +33,7 @@ Please file a github issue: https://github.com/chickenandpork/hass-osbee/issues/
 This is volunteer work, but I want to improve this integration to help more people.  If there's a
 bug, issue, or feature-request, please file it as a github issue.  If there sparse documentation
 doesn't explain, file an issue, and we can figure it out together, perhaps improving the code to be
-more intuitive, perhavps adding more documentation.
+more intuitive, perhaps adding more documentation.
 
 
 ## How to Use
@@ -63,32 +63,39 @@ banned, this is what works so very well.
 ### Configuring the Current Code
 
 Right now, this current release, you will need to make redundant platform configs per-entity.  For
-example, assuming you have two OSBees (on 192.168.1.44 and 192.168.1.45):
+example, assuming you have two OSBees (on 192.168.1.44 and 192.168.1.45), and 1.44 can run for a
+maximum of 45 minutes (2700 seconds), but 1.45 keeps the default 15-minute window.  Tokens for 1.44
+and 1.45 are "BobIsAGiant" and "AllanIsTheKing", respectively.
 
 ```yaml
 
 binary_sensor:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 
 sensor:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 
 switch:
   - platform: osbee
     host: 192.168.1.44
+    timeout: 2700
+    token: BobIsAGiant
   - platform: osbee
     host: 192.168.1.45
+    token: AllanIsTheKing
 ```
-
-Currently, in THIS release, the token is set to the default.  If you want configurability sooner,
-please file an issue in this GitHub Project.  Yes, it tells me what's important, and tells me "hey,
-someone uses this, it's a useful thing".
 
 
 ### What about Config Flow?

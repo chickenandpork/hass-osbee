@@ -1,0 +1,26 @@
+---
+# cSpell Settings
+
+version: "0.2"
+
+# flagWords - list of words to be always considered incorrect
+# This is useful for offensive words and common spelling errors.
+# For example "hte" should be "the"
+flagWords:
+  - hte
+  - ot
+
+language: en
+
+# words - list of words to be always considered correct: an Allowlist per-se
+words:
+  - allanc
+  - chickenandpork
+  - hass
+  - osbee
+  - rssi
+  - softlink
+  - spammy
+  - subdir
+  - subdirs
+

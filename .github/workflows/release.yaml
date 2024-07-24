@@ -1,0 +1,63 @@
+---
+name: Release
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      - name: Pack up Deliverable
+        run: tar -C custom_components -cJf osbee.tar.xz osbee
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          retention-days: 7
+          path: osbee.tar.xz
+
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: [build]
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        # Settings -> Actions -> General -> Workflow Permissions
+        # - select "Read repo contents", and
+        # - enable "Allow Github Actions to create and approve pull requests"
+        id: release
+        with:
+          release-type: generic
+          jsonpath: "custom_components/osbee/manifest.json"
+      - name: Clone Repo
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+      - name: Download artifacts
+        id: download
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/download-artifact@v4
+        with:
+          # don't REALLY need... meh
+          merge-multiple: true
+      - name: Simplify Version
+        id: semver
+        if: ${{ steps.release.outputs.release_created }}
+        run: echo "version=${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}" >> "$GITHUB_OUTPUT"
+      - name: Rename
+        if: ${{ steps.release.outputs.release_created }}
+        run: mv osbee.tar.xz osbee-${{ steps.semver.outputs.version }}.tar.xz
+      - name: Upload Release Artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls -al
+          echo download is ${{ steps.download.outputs.download-path }}
+          gh release upload ${{ steps.release.outputs.tag_name }} osbee-${{ steps.semver.outputs.version }}.tar.xz
