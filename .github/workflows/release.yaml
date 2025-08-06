@@ -41,7 +41,7 @@ jobs:
       - name: Download artifacts
         id: download
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           # don't REALLY need... meh
           merge-multiple: true
