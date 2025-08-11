@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Pack up Deliverable
         run: tar -C custom_components -cJf osbee.tar.xz osbee
       - name: Upload Artifacts
@@ -37,7 +37,7 @@ jobs:
           release-type: simple
       - name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Download artifacts
         id: download
         if: ${{ steps.release.outputs.release_created }}
