@@ -2,7 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "helpers:pinGitHubActionDigestsToSemver"
   ],
   "labels": [
     "dependencies"
@@ -16,7 +17,10 @@
       ]
     },
     {
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "automerge": true
     }
   ]
